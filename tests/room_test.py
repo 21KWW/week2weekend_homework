@@ -32,13 +32,13 @@ class TestRoom(unittest.TestCase):
         guest4 = Guest("Tracy", 20, "Atomic")
         guest5 = Guest("Carol", 30, "Heart Of Glass")
         guest6 = Guest("Steven", 40, "Voodoo Child")
-        guest7 = Guest("Norma", 55, "Love And Kisses")
+        guest7 = Guest("Norma", 55, "Moonchild")
         guest9 = Guest("Michael", 60, "Stay")
         guest10 = Guest("Hugh", 70, "Denis")
-        guest11 = Guest("Alan", 80, "Success")
+        guest11 = Guest("Alan", 80, "Atomic")
         guests1 = [guest1, guest2]
         guests2 = [guest6, guest7]
-        self.room1 = Room("Chill Room", 20, 5, playlist1, guests1)
+        self.room1 = Room("Chill Room", 5, 5, playlist1, guests1)
         self.room2 = Room("Blue Room", 10, 10, playlist2, guests2)
 
     def test_room_has_name(self):
@@ -46,7 +46,7 @@ class TestRoom(unittest.TestCase):
         self.assertEqual("Blue Room", self.room2.name)
 
     def test_room_has_capacity(self):
-        self.assertEqual(20, self.room1.capacity)
+        self.assertEqual(5, self.room1.capacity)
         self.assertEqual(10, self.room2.capacity)
 
     def test_room_has_entryfee(self):
@@ -68,3 +68,30 @@ class TestRoom(unittest.TestCase):
     def test_room_find_song_by_title(self):
         self.assertEqual(self.room1.playlist[0], self.room1.find_song_by_title("Rockferry"))
         self.assertEqual(self.room2.playlist[0], self.room2.find_song_by_title("Beliver"))
+
+    def test_charge_guest_entryfee(self):
+        self.room1.reduce_guest_wallet(self.room1.guests[0], self.room1.entryfee)
+        self.assertEqual(95, self.room1.guests[0].wallet)
+        self.room2.reduce_guest_wallet(self.room2.guests[0], self.room2.entryfee)
+        self.assertEqual(30, self.room2.guests[0].wallet)
+
+    def test_check_in_guest(self):
+        self.room1.check_in_guest(Guest("David", 5, "Can't Get You Out Of My Head"))
+        self.assertEqual(3, len(self.room1.guests))
+        self.room2.check_in_guest(Guest("Michael", 60, "Stay"))
+        self.assertEqual(3, len(self.room2.guests))
+
+    def test_check_out_guest(self):
+        self.room1.check_out_guest(self.room1.guests[0].name)
+        self.assertEqual(1, len(self.room1.guests))
+        self.room2.check_out_guest(self.room2.guests[0].name)
+        self.assertEqual(1, len(self.room2.guests))
+
+    def test_check_in_too_many_guests(self):
+        self.room1.check_in_guest(Guest("Carol", 30, "Heart Of Glass"))
+        self.room1.check_in_guest(Guest("Michael", 60, "Stay"))
+        self.room1.check_in_guest(Guest("Hugh", 70, "Denis"))
+        self.room1.check_in_guest(Guest("Alan", 80, "Atomic"))
+        self.assertEqual(5, len(self.room1.guests))
+
+    # def test_add_song_to_playlist(self):
