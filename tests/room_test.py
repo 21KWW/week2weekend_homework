@@ -94,4 +94,20 @@ class TestRoom(unittest.TestCase):
         self.room1.check_in_guest(Guest("Alan", 80, "Atomic"))
         self.assertEqual(5, len(self.room1.guests))
 
-    # def test_add_song_to_playlist(self):
+    def test_add_song_to_playlist(self):
+        self.room1.add_song_to_playlist(Song("Atomic", "", "Blondie"))
+        self.assertEqual(10, len(self.room1.playlist))
+    
+    def test_remove_song_from_playtlist(self):
+        self.room1.remove_song_from_playlist("Love And Kisses")
+        self.assertEqual(8, len(self.room1.playlist))
+
+    def test_number_guests_in_room(self):
+        self.assertEqual(2, self.room1.check_num_guests())
+
+    def test_check_room_capacity(self):
+        self.assertTrue(self.room1.check_room_capacity())
+    
+    def test_check_favsong(self):
+        self.assertTrue(self.room1.check_favsong("Rockferry"))
+        self.assertFalse(self.room1.check_favsong("Atomic"))
