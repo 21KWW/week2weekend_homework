@@ -12,8 +12,16 @@ class Room:
         
 # find guest by name
     def find_guest_by_name(self, guest_name):
-        # print(self.guests)
-        return [guest for guest in self.guests if guest.name == guest_name]
+        for guest in self.guests:
+            if guest.name == guest_name:
+                return guest
+        return None
+
+# find a song by its title
+    def find_song_by_title(self, song_title):
+        for song in self.playlist:
+            if song.title == song_title:
+                return song
 
 # check in a guest
 

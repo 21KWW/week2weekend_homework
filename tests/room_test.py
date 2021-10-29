@@ -62,4 +62,9 @@ class TestRoom(unittest.TestCase):
         self.assertIsNotNone(len(self.room2.guests))
 
     def test_room_find_guest_by_name(self):
-        self.assertIsNotNone(self.room1.guests[0], self.room1.find_guest_by_name("Meg"))
+        self.assertEqual(self.room1.guests[1], self.room1.find_guest_by_name("Meg"))
+        self.assertEqual(self.room2.guests[0], self.room2.find_guest_by_name("Steven"))
+
+    def test_room_find_song_by_title(self):
+        self.assertEqual(self.room1.playlist[0], self.room1.find_song_by_title("Rockferry"))
+        self.assertEqual(self.room2.playlist[0], self.room2.find_song_by_title("Beliver"))
